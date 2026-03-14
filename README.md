@@ -36,7 +36,7 @@ AgencyOS 不是又一个智能体框架，而是**智能体时代的操作系统
 
 ---
 
-## 🎯 核心定位
+## 🎯 核心定位，AgencyOS VS 传统 Agent 框架
 
 | 维度 | AgencyOS | 传统 Agent 框架 |
 |:---|:---|:---|
@@ -74,6 +74,8 @@ flowchart TB
     Interaction --> Runtime
     Runtime --> Execution
 ```
+
+---
 
 ### 四大执行域
 
