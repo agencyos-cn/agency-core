@@ -30,10 +30,19 @@ class SkillOrchestrator:
     
     async def _discover_skills(self):
         """发现可用的技能"""
-        # TODO: 实现技能发现逻辑
-        # 目前先放一个占位技能
-        self.skills["echo"] = EchoSkill()
-        logger.debug("Discovered skills: %s", list(self.skills.keys()))
+        logger.info("Discovering skills...")
+        
+        # 导入并注册技能
+        try:
+            from src.skills import DeviceController, QueryHandler
+            
+            # 创建技能实例
+            self.skills["device_controller"] = DeviceController()
+            self.skills["query_handler"] = QueryHandler()
+            
+            logger.info("Discovered skills: %s", list(self.skills.keys()))
+        except ImportError as e:
+            logger.error(f"Failed to import skills: {e}")
     
     async def create_plan(self, intent: Dict[str, Any], context) -> Dict[str, Any]:
         """根据意图创建执行计划
