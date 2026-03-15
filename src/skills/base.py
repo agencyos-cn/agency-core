@@ -9,12 +9,16 @@ logger = logging.getLogger(__name__)
 class BaseSkill(ABC):
     """所有技能的抽象基类"""
     
-    def __init__(self, skill_id: str, name: str, version: str = "0.1.0"):
-        self.skill_id = skill_id
-        self.name = name
-        self.version = version
+    def __init__(self, skill_id: Optional[str] = None, 
+                 name: Optional[str] = None, 
+                 version: Optional[str] = "0.1.0"):
+        # 如果没传参数，尝试从类属性获取
+        self.skill_id = skill_id or getattr(self.__class__, "skill_id", self.__class__.__name__.lower())
+        self.name = name or getattr(self.__class__, "name", self.__class__.__name__)
+        self.version = version or getattr(self.__class__, "version", "0.1.0")
+        
         self.config = {}
-        logger.debug("Skill %s (%s) initialized", name, skill_id)
+        logger.debug("Skill %s (%s) initialized", self.name, self.skill_id)
     
     @abstractmethod
     async def execute(self, params: Dict[str, Any], context) -> Dict[str, Any]:

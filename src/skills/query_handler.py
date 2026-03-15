@@ -17,6 +17,9 @@ class QueryHandler(BaseSkill):
     name = "查询处理器"
     version = "0.1.0"
     
+    def __init__(self):
+        super().__init__()  # 使用新的基类初始化，自动从类属性读取
+    
     async def execute(self, params: Dict[str, Any], context) -> Dict[str, Any]:
         """执行查询
         

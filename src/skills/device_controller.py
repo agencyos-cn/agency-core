@@ -17,7 +17,7 @@ class DeviceController(BaseSkill):
     version = "0.1.0"
     
     def __init__(self):
-        super().__init__(self.skill_id, self.name, self.version)
+        super().__init__()  # 使用新的基类初始化，自动从类属性读取
         self.supported_devices = ["light", "air_conditioner", "tv"]
     
     async def execute(self, params: Dict[str, Any], context) -> Dict[str, Any]:
