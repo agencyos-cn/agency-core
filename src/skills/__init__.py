@@ -1,1 +1,6 @@
-"""Skills Management Package"""
+"""技能管理模块"""
+
+from .base import BaseSkill
+from .registry import SkillRegistry
+
+__all__ = ["BaseSkill", "SkillRegistry"]

@@ -1,38 +1,51 @@
-"""Base Skill Class Definition"""
+"""BaseSkill - 所有技能的基类"""
 
-class BaseSkill:
-    """技能基类，所有具体技能需要继承此类"""
+from abc import ABC, abstractmethod
+from typing import Dict, Any, Optional
+import logging
+
+logger = logging.getLogger(__name__)
+
+class BaseSkill(ABC):
+    """所有技能的抽象基类"""
     
-    def __init__(self, name, description=""):
-        """初始化技能
-        
-        Args:
-            name (str): 技能名称
-            description (str): 技能描述
-        """
+    def __init__(self, skill_id: str, name: str, version: str = "0.1.0"):
+        self.skill_id = skill_id
         self.name = name
-        self.description = description
+        self.version = version
+        self.config = {}
+        logger.debug("Skill %s (%s) initialized", name, skill_id)
     
-    def execute(self, *args, **kwargs):
-        """执行技能逻辑，子类需要实现此方法
+    @abstractmethod
+    async def execute(self, params: Dict[str, Any], context) -> Dict[str, Any]:
+        """执行技能的核心方法
         
         Args:
-            *args: 位置参数
-            **kwargs: 关键字参数
-            
-        Raises:
-            NotImplementedError: 子类必须实现此方法
-        """
-        raise NotImplementedError("Subclasses must implement execute method")
-    
-    def validate_inputs(self, *args, **kwargs):
-        """验证输入参数
+            params: 技能参数
+            context: 执行上下文
         
-        Args:
-            *args: 位置参数
-            **kwargs: 关键字参数
-            
         Returns:
-            bool: 验证是否通过
+            执行结果
+        """
+        pass
+    
+    async def validate(self, params: Dict[str, Any]) -> bool:
+        """验证参数是否合法
+        
+        Args:
+            params: 待验证的参数
+        
+        Returns:
+            参数是否合法
         """
         return True
+    
+    async def initialize(self, config: Optional[Dict] = None):
+        """初始化技能（可选）"""
+        if config:
+            self.config.update(config)
+        logger.info("Skill %s initialized", self.name)
+    
+    async def shutdown(self):
+        """关闭技能，释放资源（可选）"""
+        logger.info("Skill %s shutdown", self.name)
