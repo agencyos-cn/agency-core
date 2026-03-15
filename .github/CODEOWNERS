@@ -1,0 +1,15 @@
+# 代码所有者定义
+# 当有人创建 PR 修改这些文件时，会自动请求这些用户审查
+
+# 根目录核心文件
+/README.md @agencyos-cn/maintainers
+/LICENSE @agencyos-cn/maintainers
+/CONTRIBUTING.md @agencyos-cn/maintainers
+/CODE_OF_CONDUCT.md @agencyos-cn/maintainers
+/SECURITY.md @agencyos-cn/maintainers
+
+# 文档目录
+/docs/* @agencyos-cn/docs-maintainers
+
+# 源代码目录（未来添加）
+/src/* @agencyos-cn/core-maintainers
