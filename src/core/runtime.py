@@ -30,6 +30,8 @@ class AgentRuntime:
         self.intent_engine = None  # 将在 initialize 中设置
         self.skill_orchestrator = None
         self.device_manager = None
+        self.device_registry = None  # 将在 initialize 中创建
+        self.device_discovery = None
         self._initialized = False
         logger.info("AgentRuntime initialized with config: %s", self.config)
     
@@ -50,6 +52,15 @@ class AgentRuntime:
         # 初始化组件
         await self.intent_engine.initialize()
         await self.skill_orchestrator.initialize()
+        
+        # 初始化设备管理组件
+        from src.devices import DeviceRegistry, DeviceDiscovery
+        self.device_registry = DeviceRegistry()
+        self.device_discovery = DeviceDiscovery()
+        
+        # 启动设备发现（可选）
+        # asyncio.create_task(self._auto_discover())
+        logger.info("Device manager initialized")
         
         self._initialized = True
         logger.info("AgentRuntime initialized successfully")
@@ -111,6 +122,25 @@ class AgentRuntime:
             "results": results,
             "conversation_id": context.session_id
         }
+    
+    async def execute_device_capability(self, device_id: str, capability: str, **params):
+        """执行设备能力"""
+        if not self.device_registry:
+            return {"error": "Device registry not initialized"}
+            
+        device = self.device_registry.get_device(device_id)
+        if not device:
+            return {"error": f"Device {device_id} not found"}
+            
+        # 将字符串转换为 CapabilityType 枚举
+        try:
+            from src.devices import CapabilityType
+            capability_type = CapabilityType(capability)
+        except ValueError:
+            return {"error": f"Invalid capability type: {capability}"}
+            
+        # 假设设备有 execute 方法来执行能力
+        return await device.execute(capability_type, **params)
     
     async def shutdown(self):
         """关闭运行时，释放资源"""
