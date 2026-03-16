@@ -1,0 +1,6 @@
+# Core dependencies
+
+
+# Optional dependencies for specific connection types
+websockets>=10.0  # For WebSocket connections
+aiohttp>=3.8      # For HTTP/HTTPS connections

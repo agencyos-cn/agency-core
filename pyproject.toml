@@ -1,0 +1,39 @@
+# pyproject.toml
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agencyos"
+version = "0.1.0"
+description = "AgencyOS - 面向物理世界的自主智能体操作系统"
+authors = [
+{name = "AgencyOS Contributors", email = "contact@agencyos.cn"}
+]
+license = {text = "Apache-2.0"}
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+"aiohttp>=3.9.0",
+"websockets>=12.0",
+]
+
+[project.optional-dependencies]
+dev = [
+"pytest>=7.4.0",
+"pytest-asyncio>=0.21.0",
+"black",
+"isort",
+"flake8",
+]
+bluetooth = [
+"bleak>=0.21.0",  # 蓝牙支持
+]
+mqtt = [
+"paho-mqtt>=1.6.0",  # MQTT支持
+]
+
+[project.urls]
+Homepage = "https://github.com/agencyos-cn/agentic-core"
+Documentation = "https://docs.agencyos.cn"
+Source = "https://github.com/agencyos-cn/agentic-core"

@@ -1,19 +1,11 @@
 """设备抽象层模块"""
 from .base import (
-    BaseDevice,
-    DeviceInfo,
-    DeviceType,
-    DeviceStatus,
-    CapabilityType,
-    DeviceCapability,
+    BaseDevice, DeviceInfo, DeviceType, DeviceStatus, 
+    CapabilityType, DeviceCapability
 )
 from .registry import DeviceRegistry
-from .discovery import (
-    DeviceDiscovery,
-    DiscoveryConfig,
-    DiscoveryProtocol,
-)
-# 从 .connection import DeviceConnection  # 稍后实现
+from .discovery import DeviceDiscovery, DiscoveryConfig, DiscoveryProtocol
+from .connection import DeviceConnection, ConnectionConfig, ConnectionType, ConnectionStatus
 from .examples.smart_light import SmartLightDevice
 
 __all__ = [
@@ -27,5 +19,9 @@ __all__ = [
     "DeviceDiscovery",
     "DiscoveryConfig",
     "DiscoveryProtocol",
+    "DeviceConnection",
+    "ConnectionConfig",
+    "ConnectionType",
+    "ConnectionStatus",
     "SmartLightDevice",
 ]

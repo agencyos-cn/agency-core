@@ -122,9 +122,17 @@ flowchart LR
 5. **安装开发依赖**
    ```bash
    pip install -e ".[dev]"
+   # 核心依赖
+   pip install aiohttp websockets
+   # 开发依赖（可选）
+   pip install pytest pytest-asyncio  # 运行测试
    ```
-
-6. **运行测试**
+6. **如需要特定协议支持**
+   ```bash
+   pip install -e ".[bluetooth]"  # 蓝牙支持
+   pip install -e ".[mqtt]"       # MQTT支持
+   ```
+7. **运行测试**
    ```bash
    pytest
    ```
