@@ -7,8 +7,9 @@
 在寻求帮助前，请先查阅以下资源：
 
 - [项目 README](README.md) - 快速了解项目
-- [文档中心](https://docs.agencyos.cn) - 详细文档（建设中）
-- [贡献指南](CONTRIBUTING.md) - 如何参与项目
+- [完整文档](docs/README.md) - 详细文档
+- [文档中心](https://docs.agencyos.cn) - 在线文档（建设中）
+- [贡献指南](docs/CONTRIBUTING.md) - 如何参与项目
 
 ## 💬 社区支持
 
@@ -24,4 +25,4 @@
 
 ## 🚑 安全报告
 
-安全相关问题请查看 [SECURITY.md](SECURITY.md)
+安全相关问题请查看 [SECURITY.md](docs/SECURITY.md)

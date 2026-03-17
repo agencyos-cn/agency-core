@@ -43,6 +43,16 @@ agencyos init my-workspace
 cd my-workspace
 ```
 
+## 从源码安装
+
+```bash
+git clone https://github.com/agencyos-cn/agentic-core.git
+cd agentic-core
+
+# 文档位于 docs/ 目录
+# 查看完整文档：docs/README.md
+```
+
 ## 开发安装
 
 如果您计划对 AgencyOS 进行开发，请使用以下命令：
@@ -117,4 +127,4 @@ pip install agencyos
 
 ## 下一步
 
-安装完成后，您可以参考 [README.md](README.md) 文件了解如何开始使用 AgencyOS。
+安装完成后，您可以参考 [README.md](../docs/README.md) 文件了解如何开始使用 AgencyOS。

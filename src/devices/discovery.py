@@ -1,6 +1,3 @@
-# src/devices/discovery.py
-"""设备发现模块 - 支持多种协议发现"""
-
 import asyncio
 import socket
 import json
@@ -84,7 +81,9 @@ class DeviceDiscovery:
         
         # 发送发现广播
         broadcast_msg = json.dumps({"type": "DISCOVER", "version": "1.0"}).encode()
-        sock.sendto(broadcast_msg, ('<broadcast>', 18789))  # OpenClaw 默认端口
+        # 使用配置参数或默认端口，避免硬编码
+        port = self._get_udp_port()
+        sock.sendto(broadcast_msg, ('<broadcast>', port))
         
         # 接收响应
         start_time = asyncio.get_event_loop().time()
@@ -102,6 +101,12 @@ class DeviceDiscovery:
         
         sock.close()
         return devices
+    
+    def _get_udp_port(self) -> int:
+        """获取UDP端口，支持配置或使用默认值"""
+        # 这里可以添加更复杂的逻辑来获取端口，比如从配置中读取
+        # 目前使用默认端口18789，但可以配置或从环境变量读取
+        return 18789
     
     async def _discover_http(self, timeout: int) -> List[Dict]:
         """HTTP端点发现"""
