@@ -4,6 +4,8 @@ import asyncio
 import logging
 from typing import Dict, Any, Optional
 from dataclasses import dataclass, field
+from .config import ConfigManager
+from .character import CharacterManager, CharacterProfile
 
 logger = logging.getLogger(__name__)
 
@@ -13,6 +15,7 @@ class RuntimeContext:
     user_id: str
     session_id: str
     device_id: Optional[str] = None
+    character_id: Optional[str] = None  # 新增：角色ID
     metadata: Dict[str, Any] = field(default_factory=dict)
 
 class AgentRuntime:
@@ -33,7 +36,46 @@ class AgentRuntime:
         self.device_registry = None  # 将在 initialize 中创建
         self.device_discovery = None
         self._initialized = False
+        self.config_manager = ConfigManager()  # 添加配置管理器
+        self.character_manager = CharacterManager()  # 添加角色管理器
+        
         logger.info("AgentRuntime initialized with config: %s", self.config)
+        logger.info(f"External services configured - LLM: {self.config_manager.has_llm_config()}, "
+                   f"Dify: {self.config_manager.has_dify_config()}, "
+                   f"OpenClaw: {self.config_manager.has_openclaw_config()}")
+
+    def create_character(self, 
+                       user_id: str, 
+                       name: str, 
+                       role_type: str,
+                       description: str = "",
+                       llm_config: Optional[Dict[str, Any]] = None,
+                       expertise_areas: Optional[list] = None,
+                       personality_traits: Optional[list] = None) -> CharacterProfile:
+        """创建角色"""
+        from .character import CharacterRoleType
+        role_enum = CharacterRoleType(role_type)
+        return self.character_manager.create_character(
+            user_id=user_id,
+            name=name,
+            role_type=role_enum,
+            description=description,
+            llm_config=llm_config,
+            expertise_areas=expertise_areas,
+            personality_traits=personality_traits
+        )
+
+    def get_user_characters(self, user_id: str) -> list:
+        """获取用户的所有角色"""
+        return self.character_manager.get_user_characters(user_id)
+
+    def switch_character(self, user_id: str, character_id: str) -> bool:
+        """切换到指定角色"""
+        return self.character_manager.switch_character(user_id, character_id)
+
+    def get_character(self, character_id: str) -> Optional[CharacterProfile]:
+        """获取角色信息"""
+        return self.character_manager.get_character(character_id)
     
     async def initialize(self):
         """异步初始化，加载所有组件"""
@@ -46,7 +88,7 @@ class AgentRuntime:
         from .intent_engine import IntentEngine
         from .orchestrator import SkillOrchestrator
         
-        self.intent_engine = IntentEngine(self.config.get("model", {}))
+        self.intent_engine = IntentEngine(self.config_manager)
         self.skill_orchestrator = SkillOrchestrator(self.config.get("skills", {}))
         
         # 初始化组件
@@ -78,17 +120,28 @@ class AgentRuntime:
         if not self._initialized:
             await self.initialize()
         
-        # 确保intent_engine和skill_orchestrator已经初始化
-        assert self.intent_engine is not None, "Intent engine should be initialized"
-        assert self.skill_orchestrator is not None, "Skill orchestrator should be initialized"
+        # 确保intent_engine已初始化
+        if self.intent_engine is None:
+            raise RuntimeError("Intent engine not initialized")
         
         logger.info("Processing input from user %s: %s", context.user_id, user_input[:50])
         
-        # 1. 意图理解
-        intent = await self.intent_engine.parse(user_input, context)
+        # 根据上下文获取角色
+        character = None
+        if context.character_id:
+            character = self.character_manager.get_character(context.character_id)
+        else:
+            # 如果没有指定角色，则使用默认角色
+            character = self.character_manager.get_default_character(context.user_id)
+        
+        # 1. 意图理解 (传递角色信息)
+        intent = await self.intent_engine.parse(user_input, context, character)
         logger.debug("Parsed intent: %s", intent)
         
         # 2. 技能编排
+        if self.skill_orchestrator is None:
+            raise RuntimeError("Skill orchestrator not initialized")
+        
         plan = await self.skill_orchestrator.create_plan(intent, context)
         logger.debug("Created plan: %s", plan)
         
