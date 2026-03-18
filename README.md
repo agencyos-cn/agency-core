@@ -232,3 +232,89 @@ Apache License 2.0 © [AgencyOS-CN](https://github.com/agencyos-cn)
 _让智能体真正拥有自主性_
 
 </div>
+```
+# AgencyOS Backend Service
+
+## 项目概述
+
+AgencyOS 后端服务实现了完整的用户认证系统，包括用户注册、登录和JWT令牌管理功能。
+
+## 功能特性
+
+- **用户认证系统**：支持用户注册、登录和身份验证
+- **JWT令牌管理**：安全的令牌生成和验证
+- **API端点**：
+  - `POST /api/auth/register` - 用户注册
+  - `POST /api/auth/login` - 用户登录
+  - `GET /api/auth/me` - 获取当前用户信息
+  - `GET /api/health` - 健康检查
+- **安全配置**：使用环境变量管理加密密钥
+
+## 安全配置
+
+本项目遵循加密密钥安全管理规范：
+- 使用至少32字节（256位）的随机密钥
+- 通过环境变量管理密钥，避免硬编码
+- 配置文件已添加到.gitignore防止提交
+- 不将加密密钥存储在数据库中
+
+## 快速开始
+
+### 1. 环境配置
+```bash
+# 复制环境配置文件
+cp .env.example .env
+
+# 生成安全密钥
+python generate_key.py
+
+# 将生成的密钥添加到 .env 文件中的 ENCRYPTION_KEY 变量
+# 设置安全权限
+chmod 600 .env
+```
+
+### 2. 依赖安装
+```bash
+pip install -r requirements.txt
+```
+
+### 3. 启动服务
+```bash
+python main.py --port 18789
+```
+
+### 4. 验证部署
+```bash
+# 验证环境配置
+python verify_env.py
+
+# 测试API
+curl http://localhost:18789/api/health
+```
+
+## 项目结构
+
+- [AUTH_IMPLEMENTATION.md](file:///Users/Joye/Sites/AgencyOs/agency-core/AUTH_IMPLEMENTATION.md) - 认证系统实现指南
+- [KEY_SECURITY_GUIDE.md](file:///Users/Joye/Sites/AgencyOs/agency-core/KEY_SECURITY_GUIDE.md) - 密钥安全配置指南
+- [DEPLOYMENT_GUIDE.md](file:///Users/Joye/Sites/AgencyOs/agency-core/DEPLOYMENT_GUIDE.md) - 部署指南
+- [IMPLEMENTATION_COMPLETE.md](file:///Users/Joye/Sites/AgencyOs/agency-core/IMPLEMENTATION_COMPLETE.md) - 实施完成报告
+- [init_database.sql](file:///Users/Joye/Sites/AgencyOs/agency-core/init_database.sql) - 数据库初始化脚本
+- [generate_key.py](file:///Users/Joye/Sites/AgencyOs/agency-core/generate_key.py) - 密钥生成工具
+- [verify_env.py](file:///Users/Joye/Sites/AgencyOs/agency-core/verify_env.py) - 环境变量验证脚本
+
+## 前后端集成
+
+前端项目 (agencyos-user-panel) 已配置为与此后端服务集成，通过环境变量 `VITE_API_BASE_URL` 指定API基础URL。
+
+## 安全说明
+
+- JWT令牌使用HS256算法加密
+- 密码使用bcrypt进行哈希处理
+- 所有API端点均受适当的身份验证和授权保护
+- 实施了适当的错误处理和输入验证
+
+## 维护
+
+- 定期轮换加密密钥
+- 监控API访问日志
+- 定期更新依赖包

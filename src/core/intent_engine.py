@@ -30,6 +30,16 @@ class IntentEngine:
         
         logger.info("IntentEngine initialized")
 
+    async def initialize(self):
+        """初始化IntentEngine"""
+        logger.info("IntentEngine initialized successfully")
+        pass
+
+    async def shutdown(self):
+        """关闭IntentEngine"""
+        logger.info("IntentEngine shutdown")
+        pass
+
     async def parse(self, user_input: str, context: RuntimeContext, character: Optional[CharacterProfile] = None) -> Dict[str, Any]:
         """解析用户输入，识别意图
         

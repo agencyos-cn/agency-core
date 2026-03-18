@@ -1,13 +1,30 @@
 """Security Configuration"""
 
+import os
 from dataclasses import dataclass
 from typing import Optional, List
-import os
+import secrets
 
 
 @dataclass
 class SecurityConfig:
     """安全配置"""
+    # 加密启用标志
+    encryption_enabled: bool = True
+    # 从环境变量获取加密密钥，如果不存在则生成一个默认的（仅用于开发）
+    # 推荐使用至少32字节(256位)的随机密钥
+    encryption_key: str = os.getenv("ENCRYPTION_KEY", secrets.token_urlsafe(32))  # 用于JWT签名的密钥
+    
+    # 访问控制
+    access_control_enabled: bool = True
+    rate_limit_enabled: bool = True
+    max_requests_per_minute: int = 100
+    
+    # SSL配置
+    ssl_enabled: bool = False
+    ssl_cert_file: str = ""
+    ssl_key_file: str = ""
+    
     # API密钥管理
     enforce_api_key_validation: bool = True
     api_key_storage_encrypted: bool = True

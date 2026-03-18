@@ -8,6 +8,11 @@ import json
 @dataclass
 class DeviceConfig:
     """设备配置"""
+    # 发现配置
+    discovery_enabled: bool = True  # 添加缺失的字段
+    supported_protocols: List[str] = None  # 添加缺失的字段
+    reconnect_interval: int = 5  # 添加缺失的字段
+    
     # 通用设备配置
     scan_interval: int = 30  # seconds
     connection_timeout: int = 10  # seconds
@@ -35,11 +40,18 @@ class DeviceConfig:
     # 设备特定配置
     device_specific_configs: Dict[str, Any] = None
     
+    # 设备注册表配置
+    device_registry: Dict[str, Any] = None  # 添加缺失的字段
+    
     def __post_init__(self):
+        if self.supported_protocols is None:
+            self.supported_protocols = ["tcp", "udp", "mqtt", "http", "websocket"]
         if self.discovery_methods is None:
             self.discovery_methods = ['mdns', 'ble', 'udp', 'http']
         if self.device_specific_configs is None:
             self.device_specific_configs = {}
+        if self.device_registry is None:
+            self.device_registry = {"type": "memory", "config": {}}
 
 
 @dataclass

@@ -1,7 +1,6 @@
-The result should be a single block of code.
-
 # Core dependencies
-
+PyJWT>=2.8.0
+cryptography>=41.0.0
 
 # Optional dependencies for specific connection types
 websockets>=12.0  # For WebSocket connections
