@@ -1,52 +1,30 @@
-# AgencyOS 中国社区 🇨🇳
+# AgencyOS - 面向物理世界的自主智能体操作系统
 
-<div align="center">
+> 让每个智能体都能在物理世界中自由行动
 
-**面向物理世界的自主智能体操作系统**
+**AgencyOS** 是一个面向物理世界的自主智能体操作系统，旨在构建"Agentic Companion"——具备自主性、个性化和实体化能力的个人智能体伴侣。它代表了从传统GUI操作系统向以自然语言交互（NUI）为主导、主动服务为特征的新一代操作系统演进。
 
-[![GitHub stars](https://img.shields.io/github/stars/agencyos-cn/agencyos-core?style=social)](https://github.com/agencyos-cn/agencyos-core)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-[![arXiv](https://img.shields.io/badge/arXiv-2403.12345-b31b1b.svg)](https://arxiv.org/abs/2403.12345)
-[![Twitter](https://img.shields.io/twitter/follow/AgencyOS?style=social)](https://twitter.com/AgencyOS)
+## 🎯 核心愿景
 
-[官网](https://agencyos.cn) • [文档](https://docs.agencyos.cn) • [社区](https://community.agencyos.cn) • [企业版](https://enterprise.agencyos.com.cn)
+> **"让每个人都能拥有一个真正的智能伙伴（Agentic Companion）——它理解你的语言，调用你的设备，连接全世界的智能体技能，从数字世界到物理世界，无处不在。"**
 
-</div>
+**核心理念**: "未来的操作系统将从 GUI 转向 NUI（自然用户界面），从应用转向技能，从被动响应转向主动服务。"
 
----
+AgencyOS 不是又一个智能体框架，而是**智能体时代的操作系统**——它管理的不再是 CPU 和内存，而是智能体的"能动性"（Agency）。
 
-## 🌟 项目愿景
+## 🧩 核心概念
 
-让每个人都能拥有一个真正的“Agentic Companion”——它理解你的语言，调用你的设备，连接全世界的智能体技能，从数字世界到物理世界，无处不在。
+### 统一术语体系
 
-### 什么是 Agentic Companion？
-
-| 特质 | 含义 |
+| 术语 | 定义 |
 |:---|:---|
-| **Agentic** | 具备自主目标设定、规划决策、环境适应能力 |
-| **Companion** | 以陪伴、信任、理解为关系核心 |
-| **Personal** | 属于你个人，伴随你一生 |
-| **Embodied** | 能通过设备感知和作用于物理世界 |
-
-
-
-> **“未来的操作系统将从 GUI 转向 NUI（自然用户界面），从应用转向技能，从被动响应转向主动服务。”**
-
-AgencyOS 不是又一个智能体框架，而是**智能体时代的操作系统**——它管理的不再是 CPU 和内存，而是智能体的“能动性”（Agency）。
-
----
-
-## 🎯 核心定位，AgencyOS VS 传统 Agent 框架
-
-| 维度 | AgencyOS | 传统 Agent 框架 |
-|:---|:---|:---|
-| **本质** | 智能体运行时环境 | 智能体开发库 |
-| **状态** | 持久化、跨设备同步 | 需开发者手动管理 |
-| **设备** | 原生支持四大执行域 | 通过工具间接调用 |
-| **世界模型** | 内置物理推演引擎 | 无 |
-| **安全** | 安全内核强制执行 | 需自行实现沙箱 |
-
----
+| **Agentic Companion** | 用户的个人智能伙伴，具备自主性、能动性，代表用户执行任务 |
+| **自主智能体** | 能够感知环境、基于目标独立评估决策并采取行动的系统 |
+| **具身智能系统** | 拥有物理"身体"和 AI"大脑"，能与物理环境交互的智能系统 |
+| **行为单元** | 任务、技能、服务、原语四层架构 |
+| **原语** | 硬件能力的原子抽象，不可分割的最小执行单元 |
+| **世界模型** | 对物理世界的演化认知表征，用于推演验证 |
+| **安全内核** | 保障系统行为合规安全的强制执行层 |
 
 ## 🏗️ 整体架构
 
@@ -74,8 +52,14 @@ flowchart TB
     Interaction --> Runtime
     Runtime --> Execution
 ```
+### 行为单元四层模型
 
----
+| 层次 | 定义 | 示例 | 开发者角色 |
+|:---|:---|:---|:---|
+| **任务 (Task)** | 顶层用户目标 | "取快递"、"准备晚餐" | 场景开发者 |
+| **技能 (Skill)** | 可复用行为单元 | "导航到驿站"、"扫码取件" | 技能开发者 |
+| **服务 (Service)** | 运行时功能组件 | "路径规划服务" | 算法开发者 |
+| **原语 (Primitive)** | 硬件原子操作 | "左腿向前迈15厘米" | 硬件厂商 |
 
 ### 四大执行域
 
@@ -108,7 +92,7 @@ flowchart TB
 
 ### 一分钟体验
 
-```bash
+``bash
 # 1. 安装 AgencyOS 内核
 pip install agencyos
 
@@ -130,16 +114,96 @@ docker run -d \
   agencyos/agentic-core:latest
 ```
 
----
+## 🧠 配置外部服务
+
+AgencyOS 支持多种外部服务集成，包括大语言模型、Dify工作流和OpenClaw接入。
+
+### 配置方式
+
+你可以通过以下方式配置外部服务：
+
+1. **配置文件**：创建 `config.json` 文件
+2. **环境变量**：使用环境变量设置
+
+### 支持的服务
+
+#### 1. 大语言模型 (LLM)
+
+支持以下提供商：
+- OpenAI
+- Ollama
+- LM Studio
+- 自定义OpenAI兼容接口
+
+配置示例（config.json）：
+```json
+{
+  "llm": {
+    "provider": "openai",
+    "model": "gpt-4",
+    "api_key": "your-api-key",
+    "base_url": "https://api.openai.com/v1"
+  }
+}
+```
+
+环境变量：
+```
+LLM_PROVIDER=openai
+LLM_MODEL=gpt-4
+LLM_API_KEY=your-api-key
+LLM_BASE_URL=https://api.openai.com/v1
+```
+
+#### 2. Dify 工作流
+
+配置示例：
+```json
+{
+  "dify": {
+    "api_key": "your-dify-api-key",
+    "workflow_url": "your-workflow-url",
+    "app_code": "your-app-code"
+  }
+}
+```
+
+环境变量：
+```
+DIFY_API_KEY=your-dify-api-key
+DIFY_WORKFLOW_URL=your-workflow-url
+DIFY_APP_CODE=your-app-code
+```
+
+#### 3. OpenClaw 接入
+
+配置示例：
+```json
+{
+  "openclaw": {
+    "api_key": "your-openclaw-api-key",
+    "endpoint": "https://openclaw.yourdomain.com",
+    "channel_id": "optional-channel-id",
+    "peer_id": "optional-peer-id"
+  }
+}
+```
+
+环境变量：
+```
+OPENCLAW_API_KEY=your-openclaw-api-key
+OPENCLAW_ENDPOINT=https://openclaw.yourdomain.com
+OPENCLAW_CHANNEL_ID=optional-channel-id
+OPENCLAW_PEER_ID=optional-peer-id
+```
 
 ## 📚 核心文档
 
-- [架构详解](https://docs.agencyos.cn/architecture) - 深入理解四大执行域
-- [开发者指南](https://docs.agencyos.cn/dev-guide) - 如何开发自己的技能
-- [API 参考](https://docs.agencyos.cn/api) - 完整的 API 文档
-- [最佳实践](https://docs.agencyos.cn/best-practices) - 生产环境部署指南
-
----
+- [架构详解](./architecture.md) - 深入理解四大执行域
+- [开发者指南](./dev-guide.md) - 如何开发自己的技能
+- [API 参考](./api.md) - 完整的 API 文档
+- [最佳实践](./best-practices.md) - 生产环境部署指南
+- [配置指南](./configuration.md) - 外部服务配置说明
 
 ## 🌍 生态市场
 
@@ -148,8 +212,6 @@ docker run -d \
 | **技能市场** | [hub.agencyos.cn/skills](https://hub.agencyos.cn/skills) | 可复用的行为单元 |
 | **数据集市场** | [hub.agencyos.cn/datasets](https://hub.agencyos.cn/datasets) | 机器人训练数据 |
 | **世界模型市场** | [hub.agencyos.cn/models](https://hub.agencyos.cn/models) | 预训练环境模型 |
-
----
 
 ## 🤝 社区与贡献
 
@@ -164,7 +226,7 @@ AgencyOS 是一个开放治理的开源项目，欢迎所有人参与！
 
 ### 贡献者阶梯
 
-```mermaid
+```
 flowchart LR
     U[用户] --> C[贡献者]
     C --> M[维护者]
@@ -245,41 +307,184 @@ Copyright © 2026 AgencyOS Project. 本项目采用 **Apache 2.0** 许可证。
 
 *AgencyOS 是一个开放社区驱动的项目，我们相信代码和理念比个人身份更重要。*
 
-Definition 1 (Agentic Companion). An Agentic Companion is a persistent, personalized autonomous agent that (1) represents a single human user, (2) maintains a continuous digital self across devices and time, (3) possesses agency to set goals and make decisions aligned with user preferences, and (4) can perceive and act upon both digital and physical environments through a distributed network of personal, wearable, embodied, and IoT devices.
+```
+# AgencyOS 文档
+
+欢迎来到 AgencyOS 文档中心！本文档将帮助您了解和使用 AgencyOS —— 面向物理世界的自主智能体操作系统。
+
+## 📘 目录
+
+1. [项目介绍](#项目介绍)
+2. [架构概览](#架构概览)
+3. [第三方生态集成](#第三方生态集成)
+4. [快速入门](#快速入门)
+5. [API 参考](#api-参考)
+6. [开发指南](#开发指南)
+7. [常见问题](#常见问题)
+
+## 项目介绍
+
+AgencyOS 代表了从传统GUI操作系统向以自然语言交互（NUI）为主导、主动服务为特征的新一代操作系统演进。我们致力于构建真正的"Agentic Companion"——具备自主性、个性化和实体化的个人智能体伴侣。
+
+### 核心理念：Agentic Computing（能动性计算）
+
+AgencyOS 不仅仅是一个软件，而是对计算范式的重新思考。我们关注的核心问题是如何让智能体真正具备"能动性"（Agency），而非仅仅是被动响应的工具。
+
+## 架构概览
+
+AgencyOS 采用三层架构设计：
+
+```
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   交互层        │    │   运行时层        │    │   执行层        │
+│                │    │                 │    │                │
+│  • IM渠道       │    │  • 自主智能体内核  │    │  • 个人计算域    │
+│  • 专用终端     │◄──►│  • 世界模型引擎   │◄──►│  • 可穿戴感知域  │
+│  • Web控制台    │    │  • 安全内核       │    │  • 具身智能域    │
+│                │    │  • 第三方生态集成  │    │  • 泛在物联域    │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
+```
+
+## 第三方生态集成
+
+AgencyOS 现在原生集成了第三方模型和技能生态系统，这是其核心特色之一：
+
+### 模型生态集成
+
+支持以下全球主流模型提供商：
+
+- **Hugging Face**: 全球最大的开源模型社区
+- **魔搭(ModelScope)**: 阿里巴巴开源模型平台，中文优化
+- **OpenAI**: GPT系列模型
+- **Anthropic**: Claude系列模型
+- **火山方舟**: 字节跳动MaaS平台
+- **百度千帆**: ERNIE Bot系列
+- **阿里云百炼**: 通义千问系列
+- **智谱AI**: ChatGLM、GLM系列
+- **讯飞星火**: 讯飞大模型
+- **月之暗面**: Moonshot系列
+
+### 技能生态集成
+
+- **Dify**: 集成其丰富的应用模板和工作流
+- **OpenClaw**: 支持其IM渠道和技能市场
+- **开放技能API**: 支持标准格式的第三方技能
+
+### 混合架构 - 智能选择AI服务
+
+- **本地规则匹配**（最快响应）
+- **本地LLM**（隐私保护、简单请求）
+- **第三方模型**（复杂对话、专业领域）
+- **Dify/OpenClaw**（工作流处理、多渠道接入）
+
+## 快速入门
+
+### 环境要求
+
+- Python 3.10+
+- 8GB+ 内存（推荐）
+
+### 安装
+
+``bash
+# 1. 克隆项目
+git clone https://github.com/agencyos-cn/agentic-core.git
+cd agentic-core
+
+# 2. 创建虚拟环境
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# 或
+venv\Scripts\activate  # Windows
+
+# 3. 安装依赖
+pip install agencyos
+```
+
+### 配置第三方服务
+
+```bash
+# 编辑配置文件
+cp config.example.json config.json
+vim config.json  # 或使用你喜欢的编辑器
+```
+
+在配置文件中填入你需要的第三方服务API密钥：
+
+```json
+{
+  "llm": {
+    "default_provider": "openai",
+    "providers": {
+      "openai": {
+        "api_key": "your-openai-api-key"
+      },
+      "anthropic": {
+        "api_key": "your-anthropic-api-key"
+      }
+    }
+  },
+  "dify": {
+    "api_base": "https://your-dify-instance/v1",
+    "api_key": "your-dify-api-key",
+    "app_id": "your-app-id"
+  },
+  "openclaw": {
+    "api_base": "https://your-openclaw-instance/v1",
+    "api_key": "your-openclaw-api-key",
+    "app_id": "your-app-id"
+  }
+}
+```
+
+### 使用
+
+```python
+from agencyos import AgentRuntime, RuntimeContext
+
+# 创建运行时实例
+runtime = AgentRuntime()
+
+# 创建上下文
+context = RuntimeContext(
+    user_id="user_001",
+    session_id="session_001"
+)
+
+# 处理用户请求
+result = await runtime.process("帮我查一下今天的天气", context)
+print(result)
+```
+
+## API 参考
+
+- [核心运行时](core/runtime.md)
+- [意图引擎](core/intent_engine.md)
+- [技能编排器](core/orchestrator.md)
+- [设备管理](devices/README.md)
+- [配置管理](core/config.md)
+
+## 开发指南
+
+- [贡献指南](CONTRIBUTING.md)
+- [代码规范](CODING_STANDARD.md)
+- [测试策略](TESTING.md)
+- [发布流程](RELEASE.md)
+
+## 常见问题
+
+### 我需要自己的模型吗？
+
+不需要！AgencyOS 原生集成了多个第三方模型提供商，您可以直接使用。只有在特殊隐私要求下，才需要配置本地模型。
+
+### 如何添加新的模型提供商？
+
+通过配置文件可以轻松添加新的模型提供商。只需提供API密钥和端点信息，系统将自动集成。
+
+### 如何连接到Dify和OpenClaw？
+
+在配置文件中设置对应的API密钥和端点，系统将自动连接并同步模型和技能。
 
 ---
 
-## 📁 项目结构
-
-```
-agentic-core/
-├── 📄 LICENSE                   # Apache 2.0 许可证
-├── 📄 README.md                 # 项目入口（指向 docs）
-├── 📄 pyproject.toml            # 项目依赖配置
-├── 📄 requirements.txt          # pip 依赖清单
-│
-├── 📁 docs/                      # 文档目录
-│   ├── 📄 README.md              # 完整文档首页
-│   ├── 📄 CONTRIBUTING.md        # 贡献指南
-│   ├── 📄 CODE_OF_CONDUCT.md     # 行为准则
-│   ├── 📄 COMMIT_CONVENTION.md   # 提交规范
-│   ├── 📄 SECURITY.md            # 安全策略
-│   ├── 📄 CHANGELOG.md           # 变更日志
-│   ├── 📄 INSTALL.md             # 安装说明
-│   ├── 📄 project-summary.md     # 项目总结
-│   ├── 📄 architecture.md        # 架构设计
-│   ├── 📄 api-reference.md       # API 参考
-│   └── 📁 tutorials/              # 教程目录
-│
-├── 📁 src/                       # 源代码
-│   ├── 📁 core/                   # 核心运行时
-│   ├── 📁 skills/                  # 技能系统
-│   ├── 📁 devices/                 # 设备抽象层
-│   └── 📁 utils/                   # 工具函数
-│
-├── 📁 tests/                      # 测试目录
-├── 📁 examples/                   # 示例代码
-├── 📁 .github/                    # GitHub 配置
-└── 📁 .continue/                  # Continue 插件配置
-```
-
+更多详情请参阅各个模块的具体文档。

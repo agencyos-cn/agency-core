@@ -1,0 +1,137 @@
+{
+  "core": {
+    "service_name": "AgencyOS-Core",
+    "host": "0.0.0.0",
+    "port": 18789,
+    "debug": false,
+    "enable_third_party_ecosystem": true,
+    "ecosystem_sync_interval": 1800,
+    "external_services": {},
+    "enable_service_discovery": true,
+    "cache_enabled": true,
+    "cache_ttl": 3600,
+    "cache_backend": "memory",
+    "log_level": "INFO",
+    "log_format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "log_file": null
+  },
+  "llm": {
+    "local_model_enabled": false,
+    "local_model_provider": "ollama",
+    "local_model_name": "llama2",
+    "local_api_base": "http://localhost:11434/v1",
+    "local_api_key": "local-key",
+    "providers": {
+      "openai": {
+        "api_key": "",
+        "model": "gpt-4",
+        "temperature": 0.7
+      },
+      "anthropic": {
+        "api_key": "",
+        "model": "claude-2",
+        "temperature": 0.7
+      },
+      "huggingface": {
+        "api_key": "",
+        "model": "meta-llama/Llama-2-7b-chat-hf",
+        "temperature": 0.7
+      },
+      "dify": {
+        "api_key": "",
+        "api_base": "",
+        "app_id": ""
+      },
+      "openclaw": {
+        "api_key": "",
+        "api_base": "",
+        "app_id": ""
+      }
+    },
+    "default_provider": "openai",
+    "fallback_providers": [
+      "anthropic",
+      "huggingface",
+      "dify"
+    ],
+    "enable_model_fallback": true,
+    "request_timeout": 30,
+    "max_retries": 3,
+    "third_party_models_enabled": true,
+    "integrated_platforms": [
+      "dify",
+      "openclaw",
+      "huggingface",
+      "modelscope",
+      "openrouter",
+      "zhipu",
+      "aliyun",
+      "baidu",
+      "tencent"
+    ],
+    "model_marketplace_urls": {
+      "huggingface": "https://huggingface.co/models",
+      "modelscope": "https://modelscope.cn/models",
+      "dify": "https://dify.ai/templates",
+      "openclaw": "https://openclaw.ai/skills",
+      "openrouter": "https://openrouter.ai/models",
+      "zhipu": "https://open.bigmodel.cn/dev/howuse",
+      "aliyun": "https://www.aliyun.com/product/dashscope",
+      "baidu": "https://cloud.baidu.com/product/wenxin yi",
+      "tencent": "https://cloud.tencent.com/product/hunyu"
+    }
+  },
+  "dify": {
+    "api_base": "http://localhost:8765/v1",
+    "api_key": "",
+    "app_id": "",
+    "third_party_llm_providers": {},
+    "enable_remote_models": true,
+    "external_skill_sources": [],
+    "sync_external_skills": true,
+    "skill_sync_interval": 3600,
+    "model_cache_ttl": 3600,
+    "skill_cache_ttl": 1800
+  },
+  "openclaw": {
+    "api_base": "http://localhost:8080/v1",
+    "api_key": "",
+    "app_id": "",
+    "third_party_llm_providers": {},
+    "enable_remote_models": true,
+    "external_skill_sources": [],
+    "sync_external_skills": true,
+    "skill_sync_interval": 3600,
+    "channels": {},
+    "enable_multi_channel": true,
+    "model_cache_ttl": 3600,
+    "skill_cache_ttl": 1800
+  },
+  "security": {
+    "encryption_enabled": true,
+    "encryption_key": "",
+    "access_control_enabled": true,
+    "rate_limit_enabled": true,
+    "max_requests_per_minute": 100,
+    "ssl_enabled": false,
+    "ssl_cert_file": "",
+    "ssl_key_file": ""
+  },
+  "device": {
+    "discovery_enabled": true,
+    "supported_protocols": [
+      "tcp",
+      "udp",
+      "mqtt",
+      "http",
+      "websocket"
+    ],
+    "connection_timeout": 10,
+    "reconnect_interval": 5,
+    "max_connections": 100,
+    "device_registry": {
+      "type": "memory",
+      "config": {}
+    }
+  }
+}

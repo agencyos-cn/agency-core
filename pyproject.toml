@@ -37,3 +37,18 @@ mqtt = [
 Homepage = "https://github.com/agencyos-cn/agentic-core"
 Documentation = "https://docs.agencyos.cn"
 Source = "https://github.com/agencyos-cn/agentic-core"
+
+[tool.pytest.ini_options]
+asyncio_mode = "strict"
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--disable-warnings"
+]
+testpaths = [
+    "tests"
+]
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["*/tests/*", "*/__pycache__/*"]
