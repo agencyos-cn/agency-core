@@ -16,52 +16,90 @@ class ConfigManager:
     """配置管理器 - 统一管理所有配置"""
     
     def __init__(self, config_file: Optional[str] = None):
+        self.config_file = config_file or "config.json"
+        
         # 初始化各模块配置
         self.core = DEFAULT_CORE_CONFIG
         self.llm = DEFAULT_LLM_CONFIG
         self.dify = DEFAULT_DIFY_CONFIG
         self.openclaw = DEFAULT_OPENCLAW_CONFIG
-        self.security = SecurityConfig()  # 使用默认构造函数
-        self.device = DeviceConfig()  # 使用默认构造函数
+        self.security = SecurityConfig()
+        self.device = DeviceConfig()
         
-        # 从配置文件加载配置
-        if config_file and os.path.exists(config_file):
-            self.load_from_file(config_file)
-        
+        # 加载配置
+        self.load_config()
+
+    def load_config(self):
+        """从文件加载配置"""
+        try:
+            # 首先尝试加载主配置文件
+            if os.path.exists(self.config_file):
+                with open(self.config_file, 'r', encoding='utf-8') as f:
+                    config_data = json.load(f)
+                
+                # 加载核心配置
+                if 'core' in config_data:
+                    self.core = CoreConfig(**config_data['core'])
+                
+                # 加载LLM配置
+                if 'llm' in config_data:
+                    self.llm = LLMConfig(**config_data['llm'])
+                
+                # 加载Dify配置
+                if 'dify' in config_data:
+                    self.dify = DifyConfig(**config_data['dify'])
+                
+                # 加载OpenClaw配置
+                if 'openclaw' in config_data:
+                    self.openclaw = OpenClawConfig(**config_data['openclaw'])
+                
+                # 加载安全配置
+                if 'security' in config_data:
+                    self.security = SecurityConfig(**config_data['security'])
+                    
+                # 加载设备配置
+                if 'device' in config_data:
+                    self.device = DeviceConfig(**config_data['device'])
+            else:
+                # 如果主配置文件不存在，尝试加载示例配置
+                example_config = "config.example.json"
+                if os.path.exists(example_config):
+                    with open(example_config, 'r', encoding='utf-8') as f:
+                        config_data = json.load(f)
+                    
+                    # 加载核心配置
+                    if 'core' in config_data:
+                        self.core = CoreConfig(**config_data['core'])
+                    
+                    # 加载LLM配置
+                    if 'llm' in config_data:
+                        self.llm = LLMConfig(**config_data['llm'])
+                    
+                    # 加载Dify配置
+                    if 'dify' in config_data:
+                        self.dify = DifyConfig(**config_data['dify'])
+                    
+                    # 加载OpenClaw配置
+                    if 'openclaw' in config_data:
+                        self.openclaw = OpenClawConfig(**config_data['openclaw'])
+                    
+                    # 加载安全配置
+                    if 'security' in config_data:
+                        self.security = SecurityConfig(**config_data['security'])
+                        
+                    # 加载设备配置
+                    if 'device' in config_data:
+                        self.device = DeviceConfig(**config_data['device'])
+                        
+        except Exception as e:
+            print(f"Error loading config from {self.config_file}: {e}")
+            # 继续使用默认配置
+            
         # 从环境变量加载配置（优先级更高）
         self.load_from_env()
         
         # 从第三方生态加载配置
         self._load_third_party_configs()
-
-    def load_from_file(self, config_file: str):
-        """从JSON文件加载配置"""
-        with open(config_file, 'r', encoding='utf-8') as f:
-            config_data = json.load(f)
-        
-        # 加载核心配置
-        if 'core' in config_data:
-            self.core = CoreConfig(**config_data['core'])
-        
-        # 加载LLM配置
-        if 'llm' in config_data:
-            self.llm = LLMConfig(**config_data['llm'])
-        
-        # 加载Dify配置
-        if 'dify' in config_data:
-            self.dify = DifyConfig(**config_data['dify'])
-        
-        # 加载OpenClaw配置
-        if 'openclaw' in config_data:
-            self.openclaw = OpenClawConfig(**config_data['openclaw'])
-        
-        # 加载安全配置
-        if 'security' in config_data:
-            self.security = SecurityConfig(**config_data['security'])
-            
-        # 加载设备配置
-        if 'device' in config_data:
-            self.device = DeviceConfig(**config_data['device'])
 
     def load_from_env(self):
         """从环境变量加载配置"""
@@ -101,10 +139,7 @@ class ConfigManager:
             return {
                 "llm": self.llm,
                 "dify": self.dify,
-                "openclaw": self.openclaw,
-                "core": self.core,
-                "security": self.security,
-                "device": self.device
+                "openclaw": self.openclaw
             }
         
         # 合并全局配置和角色特定配置
@@ -261,7 +296,7 @@ class ConfigManager:
         if not self.llm.fallback_providers:
             self.llm.fallback_providers = ["anthropic", "google", "dify"]
 
-    def save_to_file(self, config_file: str):
+    def save_config(self):
         """保存配置到文件"""
         config_data = {
             "core": self.core.__dict__,
@@ -272,8 +307,26 @@ class ConfigManager:
             "device": self.device.__dict__
         }
         
-        with open(config_file, 'w', encoding='utf-8') as f:
+        with open(self.config_file, 'w', encoding='utf-8') as f:
             json.dump(config_data, f, ensure_ascii=False, indent=2)
+    
+    def has_llm_config(self) -> bool:
+        """检查是否有有效的LLM配置"""
+        return (
+            self.llm.local_model_enabled or 
+            (self.llm.providers and 
+             any(provider.get("api_key") for provider in self.llm.providers.values()))
+        )
+    
+    def has_dify_config(self) -> bool:
+        """检查是否有有效的Dify配置"""
+        # 检查是否有API密钥和API基础URL
+        return self.dify.api_key != "" and self.dify.api_base != "http://localhost:8765/v1"
+    
+    def has_openclaw_config(self) -> bool:
+        """检查是否有有效的OpenClaw配置"""
+        # 检查是否有API密钥和API基础URL
+        return self.openclaw.api_key != "" and self.openclaw.api_base != "http://localhost:8080/v1"
 
     def _config_to_dict(self, config_obj: Any) -> Dict[str, Any]:
         """将配置对象转换为字典"""

@@ -4,7 +4,7 @@ import asyncio
 import logging
 from typing import Dict, Any, Optional, List
 from .runtime import RuntimeContext
-from ..skills import SkillRegistry, Skill
+from ..skills import SkillRegistry, BaseSkill
 from .character import CharacterManager
 
 logger = logging.getLogger(__name__)
@@ -96,7 +96,7 @@ class SkillOrchestrator:
         
         return plan
     
-    def _filter_allowed_skills(self, allowed_skills: List[str]) -> List[Skill]:
+    def _filter_allowed_skills(self, allowed_skills: List[str]) -> List[BaseSkill]:
         """过滤出允许的技能"""
         all_skills = self.skill_registry.get_all_skills()
         return [skill for skill in all_skills if skill.name in allowed_skills]
@@ -126,7 +126,7 @@ class SkillOrchestrator:
         plan["response"] = response
         return plan
     
-    async def _create_device_control_plan(self, intent: Dict[str, Any], available_skills: List[Skill]) -> Dict[str, Any]:
+    async def _create_device_control_plan(self, intent: Dict[str, Any], available_skills: List[BaseSkill]) -> Dict[str, Any]:
         """创建设备控制计划"""
         device = intent.get("device")
         action = intent.get("action")
@@ -152,7 +152,7 @@ class SkillOrchestrator:
                 "steps": []
             }
     
-    async def _create_query_plan(self, intent: Dict[str, Any], available_skills: List[Skill]) -> Dict[str, Any]:
+    async def _create_query_plan(self, intent: Dict[str, Any], available_skills: List[BaseSkill]) -> Dict[str, Any]:
         """创建查询计划"""
         query_type = intent.get("query_type")
         
@@ -166,7 +166,7 @@ class SkillOrchestrator:
             }]
         }
     
-    async def _create_education_plan(self, intent: Dict[str, Any], available_skills: List[Skill], character) -> Dict[str, Any]:
+    async def _create_education_plan(self, intent: Dict[str, Any], available_skills: List[BaseSkill], character) -> Dict[str, Any]:
         """创建教育计划"""
         subject_area = intent.get("subject_area", [])
         
@@ -186,7 +186,7 @@ class SkillOrchestrator:
             }]
         }
     
-    async def _create_legal_plan(self, intent: Dict[str, Any], available_skills: List[Skill], character) -> Dict[str, Any]:
+    async def _create_legal_plan(self, intent: Dict[str, Any], available_skills: List[BaseSkill], character) -> Dict[str, Any]:
         """创建法律计划"""
         legal_area = intent.get("legal_area", [])
         
@@ -206,7 +206,7 @@ class SkillOrchestrator:
             }]
         }
     
-    async def _create_financial_plan(self, intent: Dict[str, Any], available_skills: List[Skill], character) -> Dict[str, Any]:
+    async def _create_financial_plan(self, intent: Dict[str, Any], available_skills: List[BaseSkill], character) -> Dict[str, Any]:
         """创建金融计划"""
         finance_area = intent.get("finance_area", [])
         
@@ -226,7 +226,7 @@ class SkillOrchestrator:
             }]
         }
     
-    async def _create_dify_plan(self, intent: Dict[str, Any], available_skills: List[Skill]) -> Dict[str, Any]:
+    async def _create_dify_plan(self, intent: Dict[str, Any], available_skills: List[BaseSkill]) -> Dict[str, Any]:
         """创建Dify结果计划"""
         raw_response = intent.get("raw_response", {})
         answer = raw_response.get("answer", "抱歉，未能获取到相关信息。")
@@ -236,7 +236,7 @@ class SkillOrchestrator:
             "steps": []
         }
     
-    async def _create_general_plan(self, intent: Dict[str, Any], available_skills: List[Skill]) -> Dict[str, Any]:
+    async def _create_general_plan(self, intent: Dict[str, Any], available_skills: List[BaseSkill]) -> Dict[str, Any]:
         """创建通用计划"""
         return {
             "response": "我已经收到您的请求，正在为您处理...",

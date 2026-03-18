@@ -51,7 +51,12 @@ class AgentRuntime:
                        description: str = "",
                        llm_config: Optional[Dict[str, Any]] = None,
                        expertise_areas: Optional[list] = None,
-                       personality_traits: Optional[list] = None) -> CharacterProfile:
+                       personality_traits: Optional[list] = None,
+                       communication_style: str = "professional",
+                       tone_preference: str = "neutral",
+                       response_length: str = "medium",
+                       allowed_skills: Optional[list] = None,
+                       restricted_actions: Optional[list] = None) -> CharacterProfile:
         """创建角色"""
         from .character import CharacterRoleType
         role_enum = CharacterRoleType(role_type)
@@ -62,7 +67,12 @@ class AgentRuntime:
             description=description,
             llm_config=llm_config,
             expertise_areas=expertise_areas,
-            personality_traits=personality_traits
+            personality_traits=personality_traits,
+            communication_style=communication_style,
+            tone_preference=tone_preference,
+            response_length=response_length,
+            allowed_skills=allowed_skills,
+            restricted_actions=restricted_actions
         )
 
     def get_user_characters(self, user_id: str) -> list:

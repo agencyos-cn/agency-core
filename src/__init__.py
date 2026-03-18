@@ -1,5 +1,18 @@
-"""AgencyOS - 面向物理世界的自主智能体操作系统"""
+"""AgencyOS 核心模块"""
+
+from .core.runtime import AgentRuntime
+from .core.character import CharacterManager, CharacterProfile, CharacterRoleType
+from .skills import BaseSkill, SkillRegistry
+from .devices import DeviceRegistry
 
 __version__ = "0.1.0"
 __author__ = "AgencyOS Contributors"
-__license__ = "Apache-2.0"
+__all__ = [
+    "AgentRuntime", 
+    "CharacterManager", 
+    "CharacterProfile", 
+    "CharacterRoleType",
+    "BaseSkill",
+    "SkillRegistry",
+    "DeviceRegistry"
+]
