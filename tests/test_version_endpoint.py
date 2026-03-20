@@ -4,6 +4,7 @@ Test script to verify the version endpoint works correctly
 import aiohttp
 import asyncio
 from src.version import __version__
+from aiohttp.client_exceptions import ClientConnectorError
 
 async def test_version_endpoint():
     """Test the version endpoint"""
@@ -22,7 +23,7 @@ async def test_version_endpoint():
                     # Server可能未运行，这是正常的
                     print("Note: This might fail if the server is not running.")
                     
-    except aiohttp.client_exceptions.ClientConnectorError:
+    except ClientConnectorError:
         print("Could not connect to server. Make sure agency-core backend is running on port 18789.")
     except Exception as e:
         print(f"Error during test: {e}")
