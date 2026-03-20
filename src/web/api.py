@@ -7,7 +7,7 @@ from typing import Dict, Any, Optional
 from aiohttp import web, hdrs
 import asyncio
 import jwt
-from datetime import timedelta
+from datetime import datetime
 from src.core.runtime import AgentRuntime
 from src.core.character import CharacterAPI
 from src.core.config import ConfigManager
@@ -15,6 +15,7 @@ from src.core.database.models import User  # 导入User模型
 # 导入新增的认证模块
 from src.core.auth.user_manager import UserManager
 from src.core.auth.mail_service import MailService  # 导入邮件服务
+from src.version import __version__
 
 
 logger = logging.getLogger(__name__)
@@ -147,28 +148,24 @@ class WebAPI:
         """用户注册"""
         try:
             data = await request.json()
-            name = data.get('name')
+            # 前端发送的是name，所以应该获取name字段
+            name = data.get('nickname')
             email = data.get('email')
             password = data.get('password')
             
             if not name or not email or not password:
                 return web.json_response({
                     "success": False,
-                    "error": "昵称、邮箱和密码都是必填项"
+                    "error": "姓名、邮箱和密码都是必填项"
                 }, status=400)
             
-            user = self.user_manager.create_user(email, password, name)
+            # 使用WebAPI类中的user_manager实例
+            user = self.user_manager.create_user(name, email, password)
             
             if user:
                 return web.json_response({
                     "success": True,
-                    "message": "用户注册成功",
-                    "user": {
-                        "id": user.id,
-                        "email": user.email,
-                        "nickname": user.nickname,
-                        "status": user.status
-                    }
+                    "message": "用户注册成功"
                 })
             else:
                 return web.json_response({
@@ -661,6 +658,65 @@ class WebAPI:
                 "error": "更新智能体失败"
             }, status=500)
 
+    async def get_version(self, request):
+        """获取API版本信息"""
+        return web.json_response({
+            "version": __version__,
+            "service": "agency-core backend",
+            "timestamp": datetime.now().isoformat()
+        })
+
+    async def setup_routes(self, app):
+        """设置路由"""
+        # 添加路由
+        app.router.add_get('/api/health', self.health_check)
+        app.router.add_get('/api/user/{user_id}/characters', self.list_characters)
+        app.router.add_get('/api/character/{character_id}', self.get_character_detail)
+        app.router.add_post('/api/user/{user_id}/characters', self.create_character)
+        app.router.add_put('/api/character/{character_id}', self.update_character)
+        app.router.add_delete('/api/user/{user_id}/characters/{character_id}', self.delete_character)
+        app.router.add_post('/api/user/{user_id}/characters/{character_id}/switch', self.switch_character)
+        app.router.add_get('/api/character/types', self.get_available_roles)
+        app.router.add_get('/api/config', self.get_config)
+        app.router.add_post('/api/chat/process', self.process_chat)
+        
+        # 认证相关路由
+        app.router.add_post('/api/auth/register', self.register)
+        app.router.add_post('/api/auth/login', self.login)
+        app.router.add_post('/api/auth/request-password-reset', self.request_password_reset)  # 添加请求重置密码路由
+        app.router.add_post('/api/auth/reset-password', self.reset_password)  # 添加重置密码路由
+        app.router.add_get('/api/auth/me', self.get_current_user)
+        
+        # 智能体相关路由
+        app.router.add_get('/api/user/{user_id}/agents', self.get_user_agents)
+        app.router.add_post('/api/user/{user_id}/agents', self.create_agent)
+        app.router.add_get('/api/user/{user_id}/agents/{agent_id}', self.get_agent_detail)
+        app.router.add_put('/api/user/{user_id}/agents/{agent_id}', self.update_agent)
+        
+        # 版本相关路由
+        app.router.add_get('/api/version', self.get_version)
+        
+        # 添加CORS中间件
+        async def cors_middleware(app, handler):
+            async def middleware(request):
+                # 处理预检请求
+                if request.method == "OPTIONS":
+                    resp = web.Response()
+                    resp.headers[hdrs.ACCESS_CONTROL_ALLOW_ORIGIN] = "*"
+                    resp.headers[hdrs.ACCESS_CONTROL_ALLOW_HEADERS] = "Content-Type, Authorization"
+                    resp.headers[hdrs.ACCESS_CONTROL_ALLOW_METHODS] = "POST, GET, DELETE, PUT, OPTIONS"
+                    return resp
+                
+                # 处理实际请求
+                response = await handler(request)
+                response.headers[hdrs.ACCESS_CONTROL_ALLOW_ORIGIN] = "*"
+                response.headers[hdrs.ACCESS_CONTROL_ALLOW_CREDENTIALS] = "true"
+                return response
+            return middleware
+        
+        app.middlewares.append(cors_middleware)
+        
+        return app
 
 def setup_app(runtime: AgentRuntime) -> web.Application:
     """设置Web应用程序"""
@@ -691,6 +747,9 @@ def setup_app(runtime: AgentRuntime) -> web.Application:
     app.router.add_post('/api/user/{user_id}/agents', api_instance.create_agent)
     app.router.add_get('/api/user/{user_id}/agents/{agent_id}', api_instance.get_agent_detail)
     app.router.add_put('/api/user/{user_id}/agents/{agent_id}', api_instance.update_agent)
+    
+    # 版本相关路由 - 添加版本API端点
+    app.router.add_get('/api/version', api_instance.get_version)
     
     # 添加CORS中间件
     async def cors_middleware(app, handler):

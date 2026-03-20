@@ -37,9 +37,13 @@ class MailService:
 
         try:
             # 连接到SMTP服务器并发送邮件
-            server = smtplib.SMTP(self.smtp_server, self.smtp_port)
+            server = smtplib.SMTP(self.smtp_server, self.smtp_port, timeout=30)
+            server.ehlo()
+            
             if self.use_tls:
                 server.starttls()
+                server.ehlo()
+                
             server.login(self.sender_email, self.sender_password)
             
             text = msg.as_string()
@@ -48,9 +52,18 @@ class MailService:
             
             print(f"验证码已发送到 {recipient_email}")
             return code
+        except smtplib.SMTPAuthenticationError as e:
+            print(f"SMTP认证失败: {e}")
+            raise Exception(f"SMTP认证失败，请检查邮箱用户名和密码: {e}")
+        except smtplib.SMTPConnectError as e:
+            print(f"SMTP连接失败: {e}")
+            raise Exception(f"无法连接到SMTP服务器，请检查服务器设置: {e}")
+        except smtplib.SMTPRecipientsRefused as e:
+            print(f"收件人邮箱被拒绝: {e}")
+            raise Exception(f"收件人邮箱地址无效: {e}")
         except Exception as e:
             print(f"发送邮件失败: {e}")
-            raise e
+            raise Exception(f"发送邮件失败: {str(e)}")
 
     def verify_code(self, email: str, code: str) -> bool:
         """验证验证码是否正确"""

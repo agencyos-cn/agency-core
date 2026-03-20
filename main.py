@@ -6,6 +6,10 @@ import asyncio
 import logging
 import sys
 from pathlib import Path
+from dotenv import load_dotenv
+
+# 加载环境变量
+load_dotenv()
 
 # 添加项目根目录到Python路径
 sys.path.insert(0, str(Path(__file__).parent))

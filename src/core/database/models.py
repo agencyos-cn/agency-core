@@ -11,10 +11,10 @@ class User(BaseModel):
     password_hash: str
     nickname: Optional[str] = None
     avatar_url: Optional[str] = None
-    status: str = "active"
+    status: Optional[str] = "active"
     last_login: Optional[datetime] = None
-    created_at: datetime = datetime.now()
-    updated_at: datetime = datetime.now()
+    created_at: Optional[datetime] = datetime.now()
+    updated_at: Optional[datetime] = datetime.now()
     
     @classmethod
     def hash_password(cls, password: str) -> str:
