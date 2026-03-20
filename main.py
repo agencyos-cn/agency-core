@@ -1,5 +1,6 @@
-"""AgencyOS Web服务器主入口"""
-
+"""AgencyOS Web服务器主入口 - 负责启动Web服务器并提供API接口"""
+# 启动命令
+# cd /Users/Joye/Sites/AgencyOs/agency-core && python main.py --port 18789
 import argparse
 import asyncio
 import logging
@@ -69,3 +70,49 @@ if __name__ == "__main__":
     except Exception as e:
         logger.error(f"Server error: {e}")
         sys.exit(1)
+
+#!/usr/bin/env python3
+import argparse
+import os
+import sys
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+
+from src.core.runtime import Runtime
+from src.core.orchestrator import Orchestrator
+from src.core.auth.user_manager import UserManager
+from src.core.config import Config
+
+
+def main():
+    parser = argparse.ArgumentParser(description='AgencyOS Core Service')
+    parser.add_argument('--port', type=int, help='Port to run the service on')
+    args = parser.parse_args()
+
+    # Initialize configuration
+    config = Config(config_file='config.json')
+    
+    # Initialize services
+    user_manager = UserManager(config)
+    
+    # Initialize database if needed
+    user_manager.initialize_database(force_init=True)
+    
+    runtime = Runtime(config)
+    orchestrator = Orchestrator(runtime, config)
+
+    # Get port from command line argument, environment variable, or default
+    port = args.port or int(os.getenv('PORT', config.get('core.port', 18789)))
+
+    print(f"Starting AgencyOS Core Service on port {port}...")
+    
+    # Start the orchestrator
+    orchestrator.start(port)
+
+
+if __name__ == "__main__":
+    main()

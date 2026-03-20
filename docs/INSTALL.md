@@ -11,17 +11,22 @@
 ### 1. 克隆仓库
 
 ```bash
-git clone https://github.com/agencyos-cn/agentic-core.git
-cd agentic-core
+git clone https://github.com/agencyos-cn/agency-core.git
+cd agency-core
 ```
 
 ### 2. 创建虚拟环境（推荐）
-
+#### 这样可以确保您的项目依赖关系相互隔离，避免版本冲突问题。在您的项目 agency-core 中使用虚拟环境是一个最佳实践。
 ```bash
+# 创建名称为 "venv" 的虚拟环境
 python -m venv venv
+# 激活虚拟环境
 source venv/bin/activate  # Linux/macOS
 # 或
 venv\Scripts\activate     # Windows
+
+# 完成开发后停用虚拟环境
+deactivate
 ```
 
 ### 3. 安装依赖
@@ -33,7 +38,7 @@ pip install -r requirements.txt
 或者直接安装：
 
 ```bash
-pip install agencyos
+pip install agencyos # 暂不支持
 ```
 
 ### 4. 初始化工作区
@@ -46,8 +51,8 @@ cd my-workspace
 ## 从源码安装
 
 ```bash
-git clone https://github.com/agencyos-cn/agentic-core.git
-cd agentic-core
+git clone https://github.com/agencyos-cn/agency-core.git
+cd agency-core
 
 # 文档位于 docs/ 目录
 # 查看完整文档：docs/README.md
@@ -58,12 +63,15 @@ cd agentic-core
 如果您计划对 AgencyOS 进行开发，请使用以下命令：
 
 ```bash
-git clone https://github.com/agencyos-cn/agentic-core.git
-cd agentic-core
+git clone https://github.com/agencyos-cn/agency-core.git
+cd agency-core
 python -m venv venv
 source venv/bin/activate  # Linux/macOS
 # 或
 venv\Scripts\activate     # Windows
+# 停用虚拟环境
+deactivate
+# 安装依赖
 pip install -e .
 ```
 
@@ -78,7 +86,7 @@ docker run -d \
   --name agencyos \
   -p 18789:18789 \
   -v ./workspace:/workspace \
-  agencyos/agentic-core:latest
+  agencyos/agency-core:latest
 ```
 
 ## 验证安装

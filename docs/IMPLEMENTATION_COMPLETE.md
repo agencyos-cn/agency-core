@@ -60,19 +60,19 @@
 ## 配置信息
 
 ### 后端配置
-- 服务地址: `http://localhost:18790`
+- 服务地址: `http://localhost:18789`
 - API基础路径: `/api`
 - JWT令牌有效期: 30分钟
 
 ### 前端配置
-- API基础URL: `http://localhost:18790/api` (在.env文件中配置)
+- API基础URL: `http://localhost:18789/api` (在.env文件中配置)
 
 ## 本地开发环境设置
 
 ### 启动后端服务
 ```bash
 cd /Users/Joye/Sites/AgencyOs/agency-core
-python main.py --port 18790
+python main.py --port 18789
 ```
 
 ### 启动前端服务
@@ -93,7 +93,7 @@ npm run dev
 
 如果遇到问题，请检查:
 
-1. 确保后端服务正在运行（端口18790）
+1. 确保后端服务正在运行（端口18789）
 2. 检查前端环境变量是否正确设置
 3. 验证网络连接和CORS设置
 

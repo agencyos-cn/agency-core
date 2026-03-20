@@ -111,6 +111,69 @@ flowchart TB
     G4 --> R1 & R2 & R3
     R3 --> E1 & E2 & E3 & E4
 ```
+## 用户调用模型的路径
+```mermaid
+flowchart LR
+    subgraph YourInfra [你的基础设施]
+        A[你的Vue3前端]
+        B[Dify引擎]
+    end
+
+    subgraph Bailian [阿里云百炼等第三方服务商]
+        C[百炼应用市场中的应用<br/>智能体应用/工作流应用]
+    end
+
+    A -->|用户请求| B
+    B -->|API调用| C
+ ```   
+## Vue3自研前端 + Dify做引擎 架构，两者的分工应该是Dify私有化部署 + 阿里百炼做模型提供商
+ ```mermaid
+ flowchart TB
+    subgraph YourServer [你的服务器 - 私有化部署]
+        A[Vue3前端]
+        B[Dify引擎<br/>工作流/Agent/RAG]
+        C[(你的业务数据库)]
+    end
+
+    subgraph Aliyun [阿里云]
+        D[百炼平台<br/>模型API服务]
+    end
+
+    A --> B
+    B --> C
+    B -->|模型调用| D
+    C -->|数据存储| D
+    D -->|数据处理| C
+```
+## 最终的项目是混合架构方案
+```mermaid
+flowchart TB
+    subgraph Frontend [自研前端层]
+        F1[用户PC端 - React/Vue]
+        F2[平台管理端 - React/Vue]
+    end
+
+    subgraph YourBackend [你的业务后端 - Python3]
+        B1[用户/智能体管理]
+        B2[设备集成服务]
+        B3[数据库API]
+        B4[Dify调用代理]
+    end
+
+    subgraph Dify [Dify引擎 - 独立部署]
+        D1[工作流引擎]
+        D2[模型管理]
+        D3[RAG知识库]
+    end
+
+    subgraph DB [数据库]
+        DB1[(agencyos_db)]
+    end
+
+    F1 & F2 --> B1 & B2 & B3
+    B3 --> DB1
+    B4 --> D1 & D2 & D3
+```
 
 ## 3.2 端-边-云连续体
 
@@ -148,6 +211,76 @@ flowchart LR
 | **向量库层** | Collection 命名空间隔离 |
 | **文件存储层** | MinIO 多租户 Bucket 策略 |
 
+
+## 三层权限模型
+分层权限的智能体配置系统——既给高级用户足够的自由度，又保障普通用户的体验。
+
+```mermaid
+flowchart TB
+    subgraph Platform [平台级配置 - 不可见/不可改]
+        P1[预解析器配置]
+        P2[知识库索引策略]
+        P3[MCP服务接入规范]
+        P4[应用组件集成方式]
+    end
+
+    subgraph Admin [管理员级配置 - 平台可控]
+        A1[可用模型列表]
+        A2[默认提示词模板]
+        A3[记忆保留上限]
+        A4[回复引用策略]
+    end
+
+    subgraph User [用户级配置 - 用户可调]
+        U1[角色名称/头像]
+        U2[特长描述]
+        U3[模型选择]
+        U4[模型参数]
+        U5[记忆内容]
+        U6[知识库文件]
+    end
+
+    Platform --> Admin --> User
+```
+## 用户管理后台功能框架设计
+- 这个设计充分考虑了用户体验和技术实现的双重可行性
+```mermaid
+flowchart TB
+    subgraph Auth [认证模块]
+        A1[登录]
+        A2[注册]
+        A3[密码重置]
+    end
+
+    subgraph Dashboard [仪表盘概览]
+        B1[我的智能体团队]
+        B2[设备连接状态]
+        B3[最近活跃记录]
+        B4[系统公告/更新]
+    end
+
+    subgraph Agent [智能体管理]
+        C1[角色市场]
+        C2[我的智能体]
+        C3[对话历史]
+        C4[记忆管理]
+    end
+
+    subgraph Device [设备集成中心]
+        D1[OpenClaw电脑端]
+        D2[机器人设备]
+        D3[智能家居]
+    end
+
+    subgraph Profile [个人设置]
+        E1[账号信息]
+        E2[隐私安全]
+        E3[订阅管理]
+    end
+
+    Auth --> Dashboard
+    Dashboard --> Agent & Device & Profile
+```
 ---
 
 # 第四部分：核心模块实现

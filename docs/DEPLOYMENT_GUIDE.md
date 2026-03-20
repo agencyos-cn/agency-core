@@ -33,7 +33,7 @@ python verify_env.py
 ### 开发环境启动
 ```bash
 cd /Users/Joye/Sites/AgencyOs/agency-core
-python main.py --port 18790
+python main.py --port 18789
 ```
 
 ### 生产环境启动（推荐使用进程管理器）

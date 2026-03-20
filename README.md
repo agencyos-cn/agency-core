@@ -1,29 +1,33 @@
-# AgencyOS - 面向物理世界的自主智能体操作系统
-
-> Agentic Companion - 构建具备自主性、个性化和实体化的个人智能体伴侣
+# AgencyOS：你的终身智能伙伴
+## AgencyOS —— 你的伙伴，你的团队，你的未来。
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Status](https://img.shields.io/badge/status-beta-yellow.svg)](https://github.com/agencyos-cn/agentic-core)
 
-## 🚀 项目愿景
+## 🚀 我们是谁
 
-AgencyOS 代表了从传统GUI操作系统向以自然语言交互（NUI）为主导、主动服务为特征的新一代操作系统演进。我们致力于构建真正的"Agentic Companion"——具备自主性、个性化和实体化的个人智能体伴侣。
+AgencyOS 不是又一个 AI 工具或聊天机器人。我们是**你的终身智能伙伴**——一个真正属于你个人、理解你的过去、规划你的未来、陪伴你一生的 AI 系统。
 
-### 核心理念：Agentic Computing（能动性计算）
+### 我们的使命
 
-AgencyOS 不仅仅是一个软件，而是对计算范式的重新思考。我们关注的核心问题是如何让智能体真正具备"能动性"（Agency），而非仅仅是被动响应的工具。
+让每个人都能拥有一个真正的智能伙伴（Agentic Companion），它不只是回答问题，而是：
+
+- **理解你的语言**：不只是听懂你在说什么，而是理解你想要成为什么样的人
+- **调用你的设备**：连接你生活中的每一个智能设备，从手机到电脑，从智能家居到机器人
+- **连接全世界的智能体技能**：整合全球最优秀的 AI 能力，为你所用
+- **从数字世界到物理世界，无处不在**：在你的手机里、电脑上、眼镜中、耳机里，随时随地陪伴你
 
 ## 🏗️ 系统架构
 
 ```
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   交互层        │    │   运行时层        │    │   执行层        │
-│                │    │                 │    │                │
-│  • IM渠道       │    │  • 自主智能体内核  │    │  • 个人计算域    │
-│  • 专用终端     │◄──►│  • 世界模型引擎   │◄──►│  • 可穿戴感知域  │
-│  • Web控制台    │    │  • 安全内核       │    │  • 具身智能域    │
-│                │    │  • 第三方生态集成  │    │  • 泛在物联域    │
+│   交互层         │    │   运行时层        │    │   执行层         │
+│                 │    │                  │    │                │
+│  • IM渠道       │    │  • 自主智能体内核   │    │  • 个人计算域    │
+│  • 专用终端      │◄──►│  • 世界模型引擎    │◄──►│  • 可穿戴感知域   │
+│  • Web控制台     │    │  • 安全内核       │    │  • 具身智能域     │
+│                 │    │  • 第三方生态集成  │    │  • 泛在物联域     │
 └─────────────────┘    └──────────────────┘    └─────────────────┘
 ```
 
@@ -56,28 +60,75 @@ AgencyOS 原生支持以下全球主流模型生态：
 - **OpenClaw**: 支持其IM渠道和技能市场
 - **开放技能API**: 支持标准格式的第三方技能
 
-## 🌟 核心特性
+## 🌟 我们提供什么
 
-### 1. 混合架构 - 智能选择AI服务
-- **本地规则匹配**（最快响应）
-- **本地LLM**（隐私保护、简单请求）
-- **第三方模型**（复杂对话、专业领域）
-- **Dify/OpenClaw**（工作流处理、多渠道接入）
+### 你的专属智能体团队
 
-### 2. 第三方生态优先
-- 默认优先使用第三方成熟模型和技能
-- 本地模型作为隐私和离线场景的备选
-- 支持动态切换不同提供商的服务
+每个 AgencyOS 用户都拥有一个**由不同角色组成的智能体团队**。你可以根据需要创建和配置：
 
-### 3. 模型提供商多样性
-- 支持多种模型提供商的自动切换
-- 智能降级机制确保服务可用性
-- 无缝集成全球模型市场
+| 角色 | 功能 | 专属模型 | 专属知识库 |
+|:---|:---|:---|:---|
+| 👨‍🏫 **老师** | 学习辅导、知识传授 | 教育垂直模型 | 教材、课程体系 |
+| 📊 **金融分析师** | 投资理财建议 | 金融专业模型 | 财报、研报 |
+| ⚖️ **律师** | 法律咨询 | 法律垂直模型 | 法条、案例 |
+| 🏠 **生活助理** | 日程管理、设备控制 | 通用模型 | 你的偏好 |
+| 💪 **健身教练** | 健康管理、运动指导 | 健康垂直模型 | 运动科学 |
+| 🎯 **人生规划师** | 长期目标规划 | 规划推理模型 | 你的梦想清单 |
 
-### 4. 安全与隐私
-- 内置安全内核，强制执行伦理规则
-- 数据加密传输与存储
-- 智能判断敏感信息不上云
+每个角色都有自己的**专属记忆、专属知识库、甚至不同的底层大模型**，但他们都服务于同一个主人——**你**。
+
+### 核心能力
+
+#### 1. 终身记忆
+
+AgencyOS 会记住你的一切：
+
+- 你的生日、喜好、习惯
+- 你的梦想、目标、恐惧
+- 你和每个角色的每一次对话
+- 你的学习进度、工作状态、健康数据
+
+**这不是临时缓存，而是伴随你一生的数字自我。**
+
+#### 2. 主动规划
+
+AgencyOS 不只是被动响应，它会主动为你考虑：
+
+- 每天早上问候你，回顾昨天，提醒今天
+- 每周帮你规划学习、工作、生活
+- 当你迷茫时，帮你梳理人生目标
+- 当你懈怠时，温柔地鼓励你
+
+#### 3. 过程指导
+
+AgencyOS 不只是告诉你答案，它会陪你一步步实现目标：
+
+- 把大目标拆解成每天可执行的小任务
+- 在你遇到困难时，耐心解释、引导
+- 每完成一个里程碑，真心为你庆祝
+- 根据你的进度，动态调整计划
+
+#### 4. 团队协作
+
+AgencyOS 的不同角色会**自动协作**解决复杂问题：
+
+- 你想转行学编程，老师制定学习计划，生活助理调整你的日程
+- 你想投资理财，金融分析师评估风险，律师审查合同
+- 你想创业，人生规划师帮你梳理方向，每个角色各司其职
+
+### 技术底座
+
+AgencyOS 不是从零造轮子，而是**集成全球最优秀的生态**：
+
+| 生态 | 在我们的角色中 |
+|:---|:---|
+| **魔搭社区 (ModelScope)** | 我们的"模型供应商"——每个角色可以选择最适合的垂直模型 |
+| **阿里云百炼** | 我们的"能力供应商"——工作流编排、RAG 等企业级能力 |
+| **Dify** | 我们的"大脑引擎"——意图理解、任务规划 |
+| **OpenClaw** | 我们的"手脚"——执行本地文件操作、设备控制 |
+| **1Panel** | 我们的"运行环境"——统一管理所有服务 |
+
+**我们不重复造轮子，我们让轮子协同工作，为你服务。**
 
 ## 📦 快速开始
 
@@ -318,3 +369,73 @@ curl http://localhost:18789/api/health
 - 定期轮换加密密钥
 - 监控API访问日志
 - 定期更新依赖包
+
+```
+# AgencyOS Core
+
+The core framework for AgencyOS, providing authentication, configuration management, and orchestration services.
+
+## Setup Instructions
+
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd agency-core
+```
+
+### 2. Install Dependencies
+
+```bash
+pip install -e .
+```
+
+### 3. Configure Environment Variables
+
+Copy the `.env.example` file to `.env` and update the values:
+
+```bash
+cp .env.example .env
+```
+
+Then edit the `.env` file to set your specific configuration values:
+
+```bash
+# Database Configuration
+DB_HOST=localhost
+DB_PORT=3306
+DB_USER=agencyadmin
+DB_PASSWORD=your_secure_password
+DB_NAME=agencyos_db
+
+# Security Configuration
+ENCRYPTION_KEY=your-super-secret-jwt-signing-key-here
+
+# LLM Provider API Keys
+OPENAI_API_KEY=your_openai_api_key
+ANTHROPIC_API_KEY=your_anthropic_api_key
+# ... etc
+```
+
+### 4. Run the Service
+
+```bash
+python main.py --port 18789
+```
+
+## Configuration Details
+
+The system uses a layered approach to configuration:
+
+1. Default values are built into the application
+2. [config.json](config.json) provides site-specific defaults
+3. Environment variables (loaded from [.env](.env)) provide secrets and machine-specific settings
+
+This approach allows secrets to be stored safely in environment variables without being committed to version control.
+
+## Security Notes
+
+- Never commit `.env` files to version control
+- Use strong, unique passwords for database credentials
+- Rotate your encryption keys regularly
+- Ensure API keys are restricted to the minimum required permissions
